@@ -233,8 +233,7 @@
                       <td><?php print $fetchEmployee["emp_users_address"]; ?></td>
                       <td><?php print $fetchEmployee["emp_users_contact"]; ?></td>
                       <td style="text-align: center;">
-                        <!-- <button type="button" onclick="document.location.href='employees-position-add.php?id=<?php print $fetchEmployee['emp_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fas fa-user-plus"></i> POSITION</button> -->
-                        <button type="button" data-toggle="modal" data-target="#modal-default" onclick="<?php $id = $row['emp_id'] ?>" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fas fa-user-plus"></i> Position</button>
+                        <button type="button" onclick="document.location.href='employees-position-add.php?id=<?php print $fetchEmployee['emp_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fas fa-user-plus"></i> POSITION</button>
                         <button type="button" onclick="document.location.href='employees-delete.php?id=<?php print $fetchEmployee['emp_id']; ?>'" class="btn btn-danger" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fas fa-fire"></i> FIRE</button>
                       </td>
                     </tr>
@@ -266,48 +265,6 @@
     <!-- /.content -->
   </div>
   <!-- /.content-wrapper -->
-  <!-- MODAL -->
-  <form method="post" role="form">
-    <div class="modal fade" id="modal-default">
-      <div class="modal-dialog">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h4 class="modal-title">GIVE POSITION</h4>
-              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-          </div>
-          <div class="modal-body">
-            <div class="col-sm-10">
-              <!-- select -->
-              <div class="form-group">
-                <label>Select</label>
-                <select class="form-control" name="pos_name">
-                  <option>--Select Position--</option>
-                  <?php
-                      $id = $_GET['id'];
-                      $position = mysqli_query($dbConString, "SELECT pos_name From positions_tbl");  // Use select query here 
-
-                      while($data = mysqli_fetch_array($position))
-                      {
-                          echo "<option value='". $data['pos_name'] ."'>" .$data['pos_name'] ."</option>";  // displaying data in option menu
-                      }	
-                  ?>
-                </select>
-              </div>
-            </div>
-          </div>
-          <div class="modal-footer justify-content-between">
-          <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
-          <button type="submit" name="btn_submit" class="btn btn-primary" >Submit</button>
-          </div>
-        </div>
-        <!-- /.modal-content -->
-      </div>
-      <!-- /.modal-dialog -->
-    </div>
-  </form>
-  <!-- /.modal -->
   <footer class="main-footer">
     <div class="float-right d-none d-sm-block">
       <b>Version</b> 3.1.0-pre
