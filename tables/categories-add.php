@@ -6,7 +6,19 @@
   if(!(isset($_SESSION["users_id"]))) {
     header("location: ../index.php");
   }
+
+  if(isset($_POST['btnSave'])) {
+    $txtCategory = $_POST['Category'];
+    $txtDescription = $_POST['Description'];
+    $date = date('Y-m-d');
+
+    $sqlAddCategory = "INSERT INTO categories_tbl() VALUES (NULL, '$txtCategory', '$txtDescription', '$date', 0)";
+    mysqli_query($dbConString, $sqlAddCategory);
+
+    header("location: categories.php");
+  }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,10 +31,6 @@
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
 </head>
@@ -79,7 +87,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../dashboard.php" class="brand-link">
+    <a href="../idashboard" class="brand-link">
       <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin</span>
     </a>
@@ -122,7 +130,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Inventory
@@ -131,16 +139,24 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/employees.php" class="nav-link">
+                <a href="../tables/employees.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Employees</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../tables/categories.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Categories</p>
                 </a>
               </li>
             </ul>
           </li>
           <li class="nav-header"></li>
           <li class="nav-item">
-            <a href="#" class="nav-link active">
+            <a href="#" class="nav-link">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -149,7 +165,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/positions.php" class="nav-link active">
+                <a href="../tables/positions.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Positions</p>
                 </a>
@@ -178,12 +194,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Categories</h1>
+            <h1>New User</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="../dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Categories</li>
+              <li class="breadcrumb-item"><a href="categories.php">Categories</a></li>
+              <li class="breadcrumb-item active">New Category</li>
             </ol>
           </div>
         </div>
@@ -194,56 +210,38 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>Category</th>
-                      <th>Description</th>
-                      <th style="text-align: center;"><button type="button" onclick="document.location.href='categories-add.php'" 
-                        class="btn btn-success" style="height: 25px; font-size: 14px; padding: 0px 10px;"><i class="fa fa-plus">
-                        </i> NEW RECORD</button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                      $sqlCategories = "SELECT * FROM categories_tbl WHERE cat_isdel = 0";
-                      $queryCategories = mysqli_query($dbConString, $sqlCategories);
-                      while($fetchCategories = mysqli_fetch_assoc($queryCategories)) {
-                    ?>
-                    <tr>
-                      <td><?php print $fetchCategories["cat_name"]; ?></td>
-                      <td><?php print $fetchCategories["cat_description"]; ?></td>
-                      <td style="text-align: center;">
-                        <button type="button" onclick="document.location.href='categories-edit.php?id=<?php print $fetchCategories['cat_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-edit"></i> EDIT</button>
-                        <button type="button" onclick="document.location.href='categories-delete.php?id=<?php print $fetchCategories['cat_id']; ?>'" class="btn btn-danger" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-trash"></i> DELETE</button>
-                      </td>
-                    </tr>
-                    <?php
-                      }
-                    ?>
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Category</th>
-                    <th>Description</th>
-                    <th></th>
-                  </tr>
-                  </tfoot>
-                </table>
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Fill up the following</h3>
               </div>
-              <!-- /.card-body -->
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="post" role="form">
+                <div class="card-body">
+                  <div class="form-group">
+                  <label for="exampleInputCategory1">Category</label>
+                    <input type="text" class="form-control" id="exampleCategory1" name="Category" placeholder="Enter Category">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputDescription1">Description</label>
+                    <input type="text" class="form-control" id="exampleDescription1" name="Description" placeholder="Description">
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" name="btnSave" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
             </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
+          <!--/.col (right) -->
         </div>
         <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
+      </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
@@ -264,43 +262,20 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src=" ../plugins/jquery/jquery.min.js"></script>
+<script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../plugins/jszip/jszip.min.js"></script>
-<script src="../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+$(function () {
+  bsCustomFileInput.init();
+});
 </script>
 </body>
 </html>
