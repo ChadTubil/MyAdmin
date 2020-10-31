@@ -6,6 +6,8 @@
   if(!(isset($_SESSION["users_id"]))) {
     header("location: index.php");
   }
+
+
 ?>
 
 <!DOCTYPE html>
