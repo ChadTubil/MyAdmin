@@ -11,6 +11,15 @@
   $sqlEmployee = "SELECT * FROM employees_tbl WHERE emp_id=$id";
   $queryEmployee = mysqli_query($dbConString, $sqlEmployee);
   $fetchEmployee = mysqli_fetch_assoc($queryEmployee);
+
+  if(isset($_POST['btn_submit'])) {
+    $txtPosition = $_POST['pos_name'];
+
+    $sqlUpdate = "UPDATE employees_tbl SET emp_pos_name='$txtPosition' WHERE emp_id = $id";
+    mysqli_query($dbConString, $sqlUpdate);
+
+    header("location: employees.php");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -224,7 +233,28 @@
                   </li>
                 </ul>
 
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                <form method="post" role="form">
+                    <!-- select -->
+                  <div class="form-group">
+                    <label>Give Position</label>
+                    <select class="form-control" name="pos_name">
+                      <option>--Select Position--</option>
+                      <?php
+                          $id = $_GET['id'];
+                          $position = mysqli_query($dbConString, "SELECT pos_name From positions_tbl");  // Use select query here 
+
+                          while($data = mysqli_fetch_array($position))
+                          {
+                              echo "<option value='". $data['pos_name'] ."'>" .$data['pos_name'] ."</option>";  // displaying data in option menu
+                          }	
+                      ?>
+                    </select>
+                  </div>
+                  <div class="modal-footer justify-content-between">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="submit" name="btn_submit" class="btn btn-primary" >Submit</button>
+                  </div>
+                </form>
               </div>
               <!-- /.card-body -->
             </div>

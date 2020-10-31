@@ -6,15 +6,6 @@
   if(!(isset($_SESSION["users_id"]))) {
     header("location: ../index.php");
   }
-  
-  if(isset($_POST['btn_submit'])) {
-    $txtPosition = $_POST['pos_name'];
-
-    $sqlUpdate = "UPDATE employees_tbl SET emp_pos_name='$txtPosition' WHERE emp_id = $id";
-    mysqli_query($dbConString, $sqlUpdate);
-
-    header("location: employees.php");
-  }
 ?>
 
 <!DOCTYPE html>
