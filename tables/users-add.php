@@ -139,7 +139,7 @@
             </a>
           </li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link active">
               <i class="nav-icon fas fa-table"></i>
               <p>
                 Inventory
@@ -148,9 +148,43 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
+                <a href="../tables/employees.php" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Employees</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../tables/categories.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Categories</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+          <li class="nav-header"></li>
+          <li class="nav-item">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-cog"></i>
+              <p>
+                Settings
+                <i class="fas fa-angle-left right"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="positions.php" class="nav-link">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Positions</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
                 <a href="../tables/users.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Users</p>
+                  <p>User Management</p>
                 </a>
               </li>
             </ul>
