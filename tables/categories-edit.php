@@ -16,7 +16,7 @@
     $txtCategory = $_POST['Category'];
     $txtDescription = $_POST['Description'];  
 
-    $sqlUpdate = "UPDATE categories_tbl SET cat_name='$txtPosition', cat_description='$txtDescription' WHERE cat_id=$id";
+    $sqlUpdate = "UPDATE categories_tbl SET cat_name='$txtCategory', cat_description='$txtDescription' WHERE cat_id=$id";
     mysqli_query($dbConString, $sqlUpdate);
 
     header("location: categories.php");
