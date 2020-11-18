@@ -63,7 +63,7 @@
 
       <form role="form" method="post">
         <div class="input-group mb-3">
-          <input type="email" class="form-control" placeholder="Email" name="txtEmail">
+          <input type="email" class="form-control" placeholder="Email" name="txtEmail" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-envelope"></span>
@@ -71,7 +71,7 @@
           </div>
         </div>
         <div class="input-group mb-3">
-          <input type="password" class="form-control" placeholder="Password" name="txtPassword">
+          <input type="password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}" title="Must contain at least one number and one uppercase and lowercase letter, and at least 8 or more characters" class="form-control" placeholder="Password" name="txtPassword" required>
           <div class="input-group-append">
             <div class="input-group-text">
               <span class="fas fa-lock"></span>
