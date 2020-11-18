@@ -92,7 +92,7 @@
           <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="#" class="d-block"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></a>
+          <a href="../profile.php" class="d-block"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></a>
         </div>
       </div>
 
