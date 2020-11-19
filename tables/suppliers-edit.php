@@ -8,18 +8,23 @@
   }
 
   $id = $_GET['id'];
-  $sqlCategory = "SELECT * FROM categories_tbl WHERE cat_id=$id";
-  $queryCategory = mysqli_query($dbConString, $sqlCategory);
-  $fetchCategory = mysqli_fetch_assoc($queryCategory);
+  $sqlSupplier = "SELECT * FROM suppliers_tbl WHERE supp_id=$id";
+  $querySupplier = mysqli_query($dbConString, $sqlSupplier);
+  $fetchSupplier = mysqli_fetch_assoc($querySupplier);
 
   if(isset($_POST['btnUpdate'])) {
-    $txtCategory = $_POST['Category'];
+    $txtName = $_POST['Name'];
+    $txtOwner = $_POST['Owner'];
+    $txtAddress = $_POST['Address'];
+    $txtEmail = $_POST['Email'];
+    $txtContact = $_POST['Contact'];
     $txtDescription = $_POST['Description'];  
 
-    $sqlUpdate = "UPDATE categories_tbl SET cat_name='$txtCategory', cat_description='$txtDescription' WHERE cat_id=$id";
+    $sqlUpdate = "UPDATE suppliers_tbl SET supp_name='$txtName', supp_owner='$txtOwner', supp_address='$txtAddress', 
+    supp_email='$txtEmail', supp_contact='$txtContact', supp_description='$txtDescription' WHERE supp_id=$id";
     mysqli_query($dbConString, $sqlUpdate);
 
-    header("location: categories.php");
+    header("location: suppliers.php");
   }
 ?>
 
@@ -29,7 +34,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Categories</title>
+  <title>Admin | Supplier & Brand Partner</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -152,9 +157,17 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/categories.php" class="nav-link active">
+                <a href="../tables/categories.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Categories</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../tables/suppliers.php" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Suppliers|Brand Partners</p>
                 </a>
               </li>
             </ul>
@@ -199,12 +212,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Edit Category</h1>
+            <h1>Edit Supplier / Brand Partner</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="categories.php">Categories</a></li>
-              <li class="breadcrumb-item active">New Category</li>
+              <li class="breadcrumb-item"><a href="suppliers.php">Suppliers & Brand Partners</a></li>
+              <li class="breadcrumb-item active">Edit</li>
             </ol>
           </div>
         </div>
@@ -227,12 +240,28 @@
               <form method="post" role="form">
                 <div class="card-body">
                   <div class="form-group">
-                  <label for="exampleInputCategory1">Category</label>
-                    <input type="text" class="form-control" id="exampleCategory1" name="Category" value="<?php print $fetchCategory['cat_name']; ?>">
+                  <label for="exampleInputName1">Name</label>
+                    <input type="text" class="form-control" id="exampleName1" name="Name" value="<?php print $fetchSupplier['supp_name']; ?>">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputOwner1">Owner</label>
+                    <input type="text" class="form-control" id="exampleOwner1" name="Owner" value="<?php print $fetchSupplier['supp_owner']; ?>">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputAddress1">Address</label>
+                    <input type="text" class="form-control" id="exampleAddress1" name="Address" value="<?php print $fetchSupplier['supp_address']; ?>">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" id="exampleEmail1" name="Email" value="<?php print $fetchSupplier['supp_email']; ?>">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputContact1">Mobile Number</label>
+                    <input type="text" class="form-control" id="exampleContact1" name="Contact" value="<?php print $fetchSupplier['supp_contact']; ?>">
                   </div>
                   <div class="form-group">
                   <label for="exampleInputDescription1">Description</label>
-                    <input type="text" class="form-control" id="exampleDescription1" name="Description" value="<?php print $fetchCategory['cat_description']; ?>">
+                    <input type="text" class="form-control" id="exampleDescription1" name="Description" value="<?php print $fetchSupplier['supp_description']; ?>">
                   </div>
                 </div>
                 <!-- /.card-body -->
