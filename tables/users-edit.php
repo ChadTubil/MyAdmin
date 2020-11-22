@@ -46,7 +46,7 @@
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-  <link rel="shortcut icon" href="dist/img/AdminLTELogo.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="../dist/img/AdminLTELogo.ico" type="image/x-icon" />
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
