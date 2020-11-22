@@ -13,7 +13,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Supplier & Brand Partner</title>
+  <title>Admin | Products</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -148,9 +148,17 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/suppliers.php" class="nav-link active">
+                <a href="../tables/suppliers.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Suppliers|Brand Partners</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../tables/products.php" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Products</p>
                 </a>
               </li>
             </ul>
@@ -195,12 +203,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Suupliers & Brand Partners</h1>
+            <h1>Products</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="../dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Suppliers & Brand Partners</li>
+              <li class="breadcrumb-item active">Products</li>
             </ol>
           </div>
         </div>
@@ -218,9 +226,11 @@
                   <thead>
                     <tr>
                       <th>Name</th>
-                      <th>Owner</th> 
-                      <th>Description</th>
-                      <th style="text-align: center;"><button type="button" onclick="document.location.href='suppliers-add.php'" 
+                      <th>Cost</th> 
+                      <th>Price</th>
+                      <th>Quantity</th>
+                      <th>Last Update</th>
+                      <th style="text-align: center;"><button type="button" onclick="document.location.href='products-add.php'" 
                         class="btn btn-success" style="height: 25px; font-size: 14px; padding: 0px 10px;"><i class="fa fa-plus">
                         </i> NEW RECORD</button>
                       </th>
@@ -228,18 +238,22 @@
                   </thead>
                   <tbody>
                     <?php
-                      $sqlSuppliers = "SELECT * FROM suppliers_tbl WHERE supp_isdel = 0";
-                      $querySuppliers = mysqli_query($dbConString, $sqlSuppliers);
-                      while($fetchSuppliers = mysqli_fetch_assoc($querySuppliers)) {
+                      $sqlProducts = "SELECT * FROM products_tbl WHERE prod_isdel = 0";
+                      $queryProducts = mysqli_query($dbConString, $sqlProducts);
+                      while($fetchProducts = mysqli_fetch_assoc($queryProducts)) {
                     ?>
                     <tr>
-                      <td><?php print $fetchSuppliers["supp_name"]; ?></td>
-                      <td><?php print $fetchSuppliers["supp_owner"]; ?></td>
-                      <td><?php print $fetchSuppliers["supp_description"]; ?></td>
+                      <td><?php print $fetchProducts["prod_name"]; ?></td>
+                      <td><?php print $fetchProducts["prod_cost"]; ?></td>
+                      <td><?php print $fetchProducts["prod_price"]; ?></td>
+                      <td><?php print $fetchProducts["prod_quantity"]; ?></td>
+                      <td><?php print $fetchProducts["prod_qty_date"]; ?></td>
                       <td style="text-align: center;">
-                        <button type="button" onclick="document.location.href='suppliers-view.php?id=<?php print $fetchSuppliers['supp_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-eye"></i></button>
-                        <button type="button" onclick="document.location.href='suppliers-edit.php?id=<?php print $fetchSuppliers['supp_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-edit"></i> EDIT</button>
-                        <button type="button" onclick="document.location.href='suppliers-delete.php?id=<?php print $fetchSuppliers['supp_id']; ?>'" class="btn btn-danger" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-trash"></i> DELETE</button>
+                        <button type="button" onclick="document.location.href='products-add-qty.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-plus"></i></button>
+                        <button type="button" onclick="document.location.href='products-minus-qty.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-minus"></i></button>
+                        <button type="button" onclick="document.location.href='products-view.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-eye"></i></button>
+                        <button type="button" onclick="document.location.href='products-edit.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-edit"></i> EDIT</button>
+                        <button type="button" onclick="document.location.href='products-delete.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-danger" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-trash"></i> DELETE</button>
                       </td>
                     </tr>
                     <?php
@@ -249,8 +263,10 @@
                   <tfoot>
                   <tr>
                     <th>Name</th>
-                    <th>Owner</th> 
-                    <th>Description</th>
+                    <th>Cost</th> 
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Last Update</th>
                     <th></th>
                   </tr>
                   </tfoot>

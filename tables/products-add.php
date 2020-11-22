@@ -6,23 +6,35 @@
   if(!(isset($_SESSION["users_id"]))) {
     header("location: ../index.php");
   }
+
+  if(isset($_POST['btnSave'])) {
+    $txtName = $_POST['Name'];
+    $txtCategory = $_POST['cat_name'];
+    $txtSupplier = $_POST['supp_name'];
+    $txtCost = $_POST['Cost'];
+    $txtPrice = $_POST['Price'];
+    $date = date('Y-m-d');
+
+    $sqlAddProduct = "INSERT INTO products_tbl() VALUES (NULL, '$txtCategory', '$txtSupplier', '$txtName', '$txtCost', 
+    '$txtPrice', 0, '$date', 0, '$date', 0)";
+    mysqli_query($dbConString, $sqlAddProduct);
+
+    header("location: products.php");
+  }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Supplier & Brand Partner</title>
+  <title>Admin | Products</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
   <!-- Font Awesome -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="shortcut icon" href="../dist/img/AdminLTELogo.ico" type="image/x-icon" />
@@ -80,7 +92,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../dashboard.php" class="brand-link">
+    <a href="../idashboard" class="brand-link">
       <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin</span>
     </a>
@@ -148,9 +160,17 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/suppliers.php" class="nav-link active">
+                <a href="../tables/suppliers.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Suppliers|Brand Partners</p>
+                </a>
+              </li>
+            </ul>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="../tables/products.php" class="nav-link active">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Products</p>
                 </a>
               </li>
             </ul>
@@ -195,12 +215,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Suupliers & Brand Partners</h1>
+            <h1>New Product</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="../dashboard.php">Home</a></li>
-              <li class="breadcrumb-item active">Suppliers & Brand Partners</li>
+              <li class="breadcrumb-item"><a href="categories.php">Products</a></li>
+              <li class="breadcrumb-item active">New</li>
             </ol>
           </div>
         </div>
@@ -211,60 +231,70 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Owner</th> 
-                      <th>Description</th>
-                      <th style="text-align: center;"><button type="button" onclick="document.location.href='suppliers-add.php'" 
-                        class="btn btn-success" style="height: 25px; font-size: 14px; padding: 0px 10px;"><i class="fa fa-plus">
-                        </i> NEW RECORD</button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                      $sqlSuppliers = "SELECT * FROM suppliers_tbl WHERE supp_isdel = 0";
-                      $querySuppliers = mysqli_query($dbConString, $sqlSuppliers);
-                      while($fetchSuppliers = mysqli_fetch_assoc($querySuppliers)) {
-                    ?>
-                    <tr>
-                      <td><?php print $fetchSuppliers["supp_name"]; ?></td>
-                      <td><?php print $fetchSuppliers["supp_owner"]; ?></td>
-                      <td><?php print $fetchSuppliers["supp_description"]; ?></td>
-                      <td style="text-align: center;">
-                        <button type="button" onclick="document.location.href='suppliers-view.php?id=<?php print $fetchSuppliers['supp_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-eye"></i></button>
-                        <button type="button" onclick="document.location.href='suppliers-edit.php?id=<?php print $fetchSuppliers['supp_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-edit"></i> EDIT</button>
-                        <button type="button" onclick="document.location.href='suppliers-delete.php?id=<?php print $fetchSuppliers['supp_id']; ?>'" class="btn btn-danger" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-trash"></i> DELETE</button>
-                      </td>
-                    </tr>
-                    <?php
-                      }
-                    ?>
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Name</th>
-                    <th>Owner</th> 
-                    <th>Description</th>
-                    <th></th>
-                  </tr>
-                  </tfoot>
-                </table>
+          <!-- left column -->
+          <div class="col-md-6">
+            <!-- general form elements -->
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Fill up the following</h3>
               </div>
-              <!-- /.card-body -->
+              <!-- /.card-header -->
+              <!-- form start -->
+              <form method="post" role="form">
+                <div class="card-body">
+                  <div class="form-group">
+                  <label for="exampleInputName1">Name</label>
+                    <input type="text" class="form-control" id="exampleName1" name="Name" placeholder="Enter Name">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputCategory1">Category</label>
+                    <select class="form-control" name="cat_name">
+                      <option>--Select Category--</option>
+                      <?php
+                          $category = mysqli_query($dbConString, "SELECT cat_name From categories_tbl");  // Use select query here 
+
+                          while($data = mysqli_fetch_array($category))
+                          {
+                              echo "<option value='". $data['cat_name'] ."'>" .$data['cat_name'] ."</option>";  // displaying data in option menu
+                          }	
+                      ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputSupplier1">Supplier | Brand Partner</label>
+                  <select class="form-control" name="supp_name">
+                      <option>--Select--</option>
+                      <?php
+                          $supplier = mysqli_query($dbConString, "SELECT supp_name From suppliers_tbl");  // Use select query here 
+
+                          while($data = mysqli_fetch_array($supplier))
+                          {
+                              echo "<option value='". $data['supp_name'] ."'>" .$data['supp_name'] ."</option>";  // displaying data in option menu
+                          }	
+                      ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputCost1">Cost</label>
+                    <input type="number" class="form-control" id="exampleCost1" name="Cost">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputPrice1">Price</label>
+                    <input type="number" class="form-control" id="examplePrice1" name="Price">
+                  </div>
+                </div>
+                <!-- /.card-body -->
+
+                <div class="card-footer">
+                  <button type="submit" name="btnSave" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
             </div>
-            <!-- /.card -->
           </div>
-          <!-- /.col -->
+          <!--/.col (right) -->
         </div>
         <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
+      </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
@@ -285,43 +315,20 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src=" ../plugins/jquery/jquery.min.js"></script>
+<script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../plugins/jszip/jszip.min.js"></script>
-<script src="../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
+<!-- bs-custom-file-input -->
+<script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <!-- Page specific script -->
 <script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
+$(function () {
+  bsCustomFileInput.init();
+});
 </script>
 </body>
 </html>
