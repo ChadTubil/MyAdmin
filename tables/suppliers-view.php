@@ -7,33 +7,35 @@
     header("location: ../index.php");
   }
 
-  if(isset($_POST['btnSave'])) {
-    $txtPosition = $_POST['Position'];
+  $sqlUsers = "SELECT * FROM users_tbl WHERE users_id = $_SESSION[users_id]";
+  $queryUsers = mysqli_query($dbConString, $sqlUsers);
+  $fetchUsers = mysqli_fetch_assoc($queryUsers);
 
-    $sqlAddPosition = "INSERT INTO positions_tbl() VALUES (NULL, '$txtPosition', 0, 0)";
-    mysqli_query($dbConString, $sqlAddPosition);
+  $id = $_GET['id'];
+  $sqlSuppliers = "SELECT * FROM suppliers_tbl WHERE supp_id = $id";
+  $querySuppliers = mysqli_query($dbConString, $sqlSuppliers);
+  $fetchSuppliers = mysqli_fetch_assoc($querySuppliers);
 
-    header("location: positions.php");
-  }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Position</title>
+  <title>Admin | Supplier & Brand Partner </title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
-  <link rel="shortcut icon" href="dist/img/AdminLTELogo.ico" type="image/x-icon" />
+  <link rel="shortcut icon" href="../dist/img/AdminLTELogo.ico" type="image/x-icon" />
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -65,6 +67,11 @@
     <!-- Right navbar links -->
     <ul class="navbar-nav ml-auto">
       <li class="nav-item">
+        <a class="nav-link" href="../logout.php" role="button">
+          <i class="fas fa-sign-out-alt"></i>
+        </a>
+      </li>
+      <li class="nav-item">
         <a class="nav-link" data-widget="fullscreen" href="#" role="button">
           <i class="fas fa-expand-arrows-alt"></i>
         </a>
@@ -81,14 +88,14 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../idashboard" class="brand-link">
+    <a href="dashboard.php" class="brand-link">
       <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
+      <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
@@ -133,7 +140,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/employees.php" class="nav-link active">
+                <a href="../tables/employees.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Employees</p>
                 </a>
@@ -149,15 +156,7 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/categories.php" class="nav-link">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Categories</p>
-                </a>
-              </li>
-            </ul>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="../tables/suppliers.php" class="nav-link">
+                <a href="../tables/suppliers.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Suppliers|Brand Partners</p>
                 </a>
@@ -166,7 +165,7 @@
           </li>
           <li class="nav-header"></li>
           <li class="nav-item">
-            <a href="#" class="nav-link">
+            <a href="#" class="nav-link ">
               <i class="nav-icon fas fa-cog"></i>
               <p>
                 Settings
@@ -175,7 +174,7 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/positions.php" class="nav-link">
+                <a href="../tables/positions.php" class="nav-link ">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Positions</p>
                 </a>
@@ -204,12 +203,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>New User</h1>
+            <h1>Suppliers & Brand Partners</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="users.php">Users</a></li>
-              <li class="breadcrumb-item active">New User</li>
+              <li class="breadcrumb-item"><a href="../dashboard.php">Home</a></li>
+              <li class="breadcrumb-item active">Suppliers & Brand Partners</li>
             </ol>
           </div>
         </div>
@@ -220,31 +219,46 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <!-- left column -->
-          <div class="col-md-6">
-            <!-- general form elements -->
-            <div class="card card-primary">
-              <div class="card-header">
-                <h3 class="card-title">Fill up the following</h3>
-              </div>
-              <!-- /.card-header -->
-              <!-- form start -->
-              <form method="post" role="form">
-                <div class="card-body">
-                  <div class="form-group">
-                  <label for="exampleInputPosition1">Position</label>
-                    <input type="text" class="form-control" id="examplePosition1" name="Position" placeholder="Enter Position">
-                  </div>
-                </div>
-                <!-- /.card-body -->
+          <div class="col-md-3">
 
-                <div class="card-footer">
-                  <button type="submit" name="btnSave" class="btn btn-primary">Submit</button>
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="../dist/img/user2-160x160.jpg"
+                       alt="User profile picture">
                 </div>
-              </form>
+
+                <h3 class="profile-username text-center"><?php print ucwords($fetchSuppliers['supp_name']) ?></h3>
+
+                <p class="text-muted text-center">SUPPLIER | BRAND PARTNER</p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                  <b>Owner</b> <h6 class="float-right"><?php print ucwords($fetchSuppliers['supp_owner']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Address</b> <h6 class="float-right"><?php print ucwords($fetchSuppliers['supp_address']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Email</b> <h6 class="float-right"><?php print ucwords($fetchSuppliers['supp_email']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Mobile Number</b> <h6 class="float-right"><?php print ucwords($fetchSuppliers['supp_contact']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Description</b> <h6 class="float-right"><?php print ucwords($fetchSuppliers['supp_description']) ?></h6>
+                  </li>
+                </ul>
+
+                <a href="suppliers.php" class="btn btn-primary btn-block"><b>Close</b></a>
+              </div>
+              <!-- /.card-body -->
             </div>
+            <!-- /.card -->
           </div>
-          <!--/.col (right) -->
+          <!-- /.col -->
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
@@ -271,17 +285,9 @@
 <script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- bs-custom-file-input -->
-<script src="../plugins/bs-custom-file-input/bs-custom-file-input.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
-<!-- Page specific script -->
-<script>
-$(function () {
-  bsCustomFileInput.init();
-});
-</script>
 </body>
 </html>
