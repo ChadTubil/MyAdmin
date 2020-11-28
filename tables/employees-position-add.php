@@ -268,7 +268,7 @@
                     </select>
                   </div>
                   <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default" onclick="location.href='../tables/employees.php'">Cancel</button>
                     <button type="submit" name="btn_submit" class="btn btn-primary" >Submit</button>
                   </div>
                 </form>

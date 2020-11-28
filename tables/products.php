@@ -226,6 +226,7 @@
                   <thead>
                     <tr>
                       <th>Name</th>
+                      <th>Condition</th>
                       <th>Cost</th> 
                       <th>Price</th>
                       <th>Quantity</th>
@@ -244,13 +245,13 @@
                     ?>
                     <tr>
                       <td><?php print $fetchProducts["prod_name"]; ?></td>
+                      <td><?php print $fetchProducts["prod_status"]; ?></td>
                       <td><?php print $fetchProducts["prod_cost"]; ?></td>
                       <td><?php print $fetchProducts["prod_price"]; ?></td>
                       <td><?php print $fetchProducts["prod_quantity"]; ?></td>
                       <td><?php print $fetchProducts["prod_qty_date"]; ?></td>
                       <td style="text-align: center;">
                         <button type="button" onclick="document.location.href='products-add-qty.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-plus"></i></button>
-                        <button type="button" onclick="document.location.href='products-minus-qty.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-minus"></i></button>
                         <button type="button" onclick="document.location.href='products-view.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-eye"></i></button>
                         <button type="button" onclick="document.location.href='products-edit.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-edit"></i> EDIT</button>
                         <button type="button" onclick="document.location.href='products-delete.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-danger" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-trash"></i> DELETE</button>
@@ -263,6 +264,7 @@
                   <tfoot>
                   <tr>
                     <th>Name</th>
+                    <th>Condition</th>
                     <th>Cost</th> 
                     <th>Price</th>
                     <th>Quantity</th>

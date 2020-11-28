@@ -262,7 +262,10 @@
                     <!-- select -->
                     <ul class="list-group list-group-unbordered mb-3">
                         <li class="list-group-item">
-                            <b>Remaining Quantity</b> <h6 class="float-right" name="rqty"><?php print ucwords($fetchProduct['prod_quantity']) ?></h6>
+                            <b>Remaining Stocks</b> <h6 class="float-right" name="rqty"><?php print ucwords($fetchProduct['prod_quantity']) ?></h6>
+                        </li>
+                        <li class="list-group-item">
+                            <b>Last Restock</b> <h6 class="float-right" name="lr"><?php print ucwords($fetchProduct['prod_qty_date']) ?></h6>
                         </li>
                     </ul>
                     <ul class="list-group list-group-unbordered mb-3">
@@ -271,7 +274,7 @@
                         </li>
                     </ul>
                   <div class="modal-footer justify-content-between">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Cancel</button>
+                    <button type="button" class="btn btn-default"  onclick="location.href='../tables/products.php'">Cancel</button>
                     <button type="submit" name="btn_submit" class="btn btn-primary" >Submit</button>
                   </div>
                 </form>

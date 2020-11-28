@@ -11,12 +11,13 @@
     $txtName = $_POST['Name'];
     $txtCategory = $_POST['cat_name'];
     $txtSupplier = $_POST['supp_name'];
+    $txtStatus = $_POST['status'];
     $txtCost = $_POST['Cost'];
     $txtPrice = $_POST['Price'];
     $date = date('Y-m-d');
 
     $sqlAddProduct = "INSERT INTO products_tbl() VALUES (NULL, '$txtCategory', '$txtSupplier', '$txtName', '$txtCost', 
-    '$txtPrice', 0, '$date', 0, '$date', 0)";
+    '$txtPrice', 0, '$date', 0, '$date', '$txtStatus', 0)";
     mysqli_query($dbConString, $sqlAddProduct);
 
     header("location: products.php");
@@ -272,6 +273,16 @@
                               echo "<option value='". $data['supp_name'] ."'>" .$data['supp_name'] ."</option>";  // displaying data in option menu
                           }	
                       ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputStatus1">Condition</label>
+                    <select class="form-control" name="status">
+                      <option>--Select--</option>
+                      <option value="New">New</option>
+                      <option value="Used - Like New">Used - Like New</option>
+                      <option value="Used - Good">Used - Good</option>
+                      <option value="Used - Fair">Used - Fair</option>
                     </select>
                   </div>
                   <div class="form-group">
