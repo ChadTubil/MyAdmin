@@ -6,6 +6,16 @@
   if(!(isset($_SESSION["users_id"]))) {
     header("location: ../index.php");
   }
+
+  $sqlUsers = "SELECT * FROM users_tbl WHERE users_id = $_SESSION[users_id]";
+  $queryUsers = mysqli_query($dbConString, $sqlUsers);
+  $fetchUsers = mysqli_fetch_assoc($queryUsers);
+
+  $id = $_GET['id'];
+  $sqlProducts = "SELECT * FROM products_tbl WHERE prod_id = $id";
+  $queryProducts = mysqli_query($dbConString, $sqlProducts);
+  $fetchProducts = mysqli_fetch_assoc($queryProducts);
+
 ?>
 
 <!DOCTYPE html>
@@ -17,17 +27,15 @@
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
-  <!-- Font Awesome -->
+  <!-- Font Awesome Icons -->
   <link rel="stylesheet" href="../plugins/fontawesome-free/css/all.min.css">
-  <!-- DataTables -->
-  <link rel="stylesheet" href="../plugins/datatables-bs4/css/dataTables.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-responsive/css/responsive.bootstrap4.min.css">
-  <link rel="stylesheet" href="../plugins/datatables-buttons/css/buttons.bootstrap4.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="../plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="shortcut icon" href="../dist/img/AdminLTELogo.ico" type="image/x-icon" />
 </head>
-<body class="hold-transition sidebar-mini">
+<body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
   <!-- Navbar -->
   <nav class="main-header navbar navbar-expand navbar-white navbar-light">
@@ -80,14 +88,14 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../dashboard.php" class="brand-link">
+    <a href="dashboard.php" class="brand-link">
       <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin</span>
     </a>
 
     <!-- Sidebar -->
     <div class="sidebar">
-      <!-- Sidebar user (optional) -->
+      <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
           <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
@@ -219,60 +227,40 @@
     <section class="content">
       <div class="container-fluid">
         <div class="row">
-          <div class="col-12">
-            <div class="card">
-              <div class="card-body">
-                <table id="example1" class="table table-bordered table-striped">
-                  <thead>
-                    <tr>
-                      <th>Name</th>
-                      <th>Condition</th>
-                      <th>Cost</th> 
-                      <th>Price</th>
-                      <th>Quantity</th>
-                      <th>Last Restock</th>
-                      <th style="text-align: center;"><button type="button" onclick="document.location.href='products-add.php'" 
-                        class="btn btn-success" style="height: 25px; font-size: 14px; padding: 0px 10px;"><i class="fa fa-plus">
-                        </i> NEW RECORD</button>
-                      </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <?php
-                      $sqlProducts = "SELECT * FROM products_tbl WHERE prod_isdel = 0";
-                      $queryProducts = mysqli_query($dbConString, $sqlProducts);
-                      while($fetchProducts = mysqli_fetch_assoc($queryProducts)) {
-                    ?>
-                    <tr>
-                      <td><?php print $fetchProducts["prod_name"]; ?></td>
-                      <td><?php print $fetchProducts["prod_status"]; ?></td>
-                      <td><?php print $fetchProducts["prod_cost"]; ?></td>
-                      <td><?php print $fetchProducts["prod_price"]; ?></td>
-                      <td><?php print $fetchProducts["prod_quantity"]; ?></td>
-                      <td><?php print $fetchProducts["prod_qty_date"]; ?></td>
-                      <td style="text-align: center;">
-                        <button type="button" onclick="document.location.href='products-add-qty.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-plus"></i></button>
-                        <button type="button" onclick="document.location.href='products-view.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-eye"></i></button>
-                        <button type="button" onclick="document.location.href='products-edit.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-primary" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="far fa-edit"></i> EDIT</button>
-                        <button type="button" onclick="document.location.href='products-delete.php?id=<?php print $fetchProducts['prod_id']; ?>'" class="btn btn-danger" style="height: 25px; font-size: 12px; padding: 0px 10px;"><i class="fa fa-trash"></i> DELETE</button>
-                      </td>
-                    </tr>
-                    <?php
-                      }
-                    ?>
-                  </tbody>
-                  <tfoot>
-                  <tr>
-                    <th>Name</th>
-                    <th>Condition</th>
-                    <th>Cost</th> 
-                    <th>Price</th>
-                    <th>Quantity</th>
-                    <th>Last Restock</th>
-                    <th></th>
-                  </tr>
-                  </tfoot>
-                </table>
+          <div class="col-md-3">
+
+            <!-- Profile Image -->
+            <div class="card card-primary card-outline">
+              <div class="card-body box-profile">
+                <div class="text-center">
+                  <img class="profile-user-img img-fluid img-circle"
+                       src="../dist/img/user2-160x160.jpg"
+                       alt="User profile picture">
+                </div>
+
+                <h3 class="profile-username text-center"><?php print ucwords($fetchProducts['prod_name']) ?></h3>
+
+                <p class="text-muted text-center"><?php print ucwords($fetchProducts['prod_cat_name']) ?> | <?php print ucwords($fetchProducts['prod_supp_name']) ?></p>
+
+                <ul class="list-group list-group-unbordered mb-3">
+                  <li class="list-group-item">
+                    <b>Condition</b> <h6 class="float-right"><?php print ucwords($fetchProducts['prod_status']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Cost</b> <h6 class="float-right"><?php print ucwords($fetchProducts['prod_cost']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Retail</b> <h6 class="float-right"><?php print ucwords($fetchProducts['prod_price']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Available Stocks</b> <h6 class="float-right"><?php print ucwords($fetchProducts['prod_quantity']) ?></h6>
+                  </li>
+                  <li class="list-group-item">
+                    <b>Description</b> <h6 class="float-right"><?php print ucwords($fetchProducts['prod_description']) ?></h6>
+                  </li>
+                </ul>
+
+                <a href="products.php" class="btn btn-primary btn-block"><b>Close</b></a>
               </div>
               <!-- /.card-body -->
             </div>
@@ -281,8 +269,7 @@
           <!-- /.col -->
         </div>
         <!-- /.row -->
-      </div>
-      <!-- /.container-fluid -->
+      </div><!-- /.container-fluid -->
     </section>
     <!-- /.content -->
   </div>
@@ -303,43 +290,12 @@
 <!-- ./wrapper -->
 
 <!-- jQuery -->
-<script src=" ../plugins/jquery/jquery.min.js"></script>
+<script src="../plugins/jquery/jquery.min.js"></script>
 <!-- Bootstrap 4 -->
 <script src="../plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
-<!-- DataTables  & Plugins -->
-<script src="../plugins/datatables/jquery.dataTables.min.js"></script>
-<script src="../plugins/datatables-bs4/js/dataTables.bootstrap4.min.js"></script>
-<script src="../plugins/datatables-responsive/js/dataTables.responsive.min.js"></script>
-<script src="../plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
-<script src="../plugins/datatables-buttons/js/dataTables.buttons.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.bootstrap4.min.js"></script>
-<script src="../plugins/jszip/jszip.min.js"></script>
-<script src="../plugins/pdfmake/pdfmake.min.js"></script>
-<script src="../plugins/pdfmake/vfs_fonts.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.html5.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.print.min.js"></script>
-<script src="../plugins/datatables-buttons/js/buttons.colVis.min.js"></script>
 <!-- AdminLTE App -->
 <script src="../dist/js/adminlte.min.js"></script>
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
-<!-- Page specific script -->
-<script>
-  $(function () {
-    $("#example1").DataTable({
-      "responsive": true, "lengthChange": false, "autoWidth": false,
-      "buttons": ["copy", "csv", "excel", "pdf", "print", "colvis"]
-    }).buttons().container().appendTo('#example1_wrapper .col-md-6:eq(0)');
-    $('#example2').DataTable({
-      "paging": true,
-      "lengthChange": false,
-      "searching": false,
-      "ordering": true,
-      "info": true,
-      "autoWidth": false,
-      "responsive": true,
-    });
-  });
-</script>
 </body>
 </html>

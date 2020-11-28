@@ -14,10 +14,11 @@
     $txtStatus = $_POST['status'];
     $txtCost = $_POST['Cost'];
     $txtPrice = $_POST['Price'];
+    $txtDescription = $_POST['Description'];
     $date = date('Y-m-d');
 
     $sqlAddProduct = "INSERT INTO products_tbl() VALUES (NULL, '$txtCategory', '$txtSupplier', '$txtName', '$txtCost', 
-    '$txtPrice', 0, '$date', 0, '$date', '$txtStatus', 0)";
+    '$txtPrice', 0, '$date', 0, '$date', '$txtStatus', '$txtDescription', 0)";
     mysqli_query($dbConString, $sqlAddProduct);
 
     header("location: products.php");
@@ -292,6 +293,10 @@
                   <div class="form-group">
                   <label for="exampleInputPrice1">Price</label>
                     <input type="number" class="form-control" id="examplePrice1" name="Price">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputDescription1">Description</label>
+                    <textarea class="form-control" name="Description"></textarea>
                   </div>
                 </div>
                 <!-- /.card-body -->
