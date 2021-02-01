@@ -240,8 +240,7 @@
                     <b>Date created</b> <b class="float-right"><?php print ucwords($fetchUsers['users_datecreated']) ?></b>
                   </li>
                 </ul>
-
-                <a href="#" class="btn btn-primary btn-block"><b>Follow</b></a>
+                <a href="tables/users-edit.php" class="btn btn-primary btn-block"><b>Follow</b></a>
               </div>
               <!-- /.card-body -->
             </div>

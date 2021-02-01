@@ -11,7 +11,6 @@
 	//   die("Connection failed: " . $dbConString->connect_error);
 	// }
 	// echo "Connected successfully";
-
   if(isset($_POST['btnSave'])) {
     $txtLastName = $_POST['Lastname'];
     $txtFirstName = $_POST['Firstname'];
@@ -22,13 +21,30 @@
     $txtPassword = $_POST['Password'];
     $txtRPassword = $_POST['RPassword'];
     $date = date('Y-m-d');
-    $img = $_FILES["fileUpload"]["name"];
+
+    $fileInfo = PATHINFO($_FILES["image"]["name"]);
+    if (empty($_FILES["image"]["name"])){
+      $location="";
+    }
+    else{
+      if ($fileInfo['extension'] == "jpg" OR $fileInfo['extension'] == "png") {
+        $newFilename = $fileInfo['filename'] . "_" . time() . "." . $fileInfo['extension'];
+        move_uploaded_file($_FILES["image"]["tmp_name"], "../upload/" . $newFilename);
+        $location = "upload/" . $newFilename;
+      }
+      else{
+        $location="";
+        ?>
+          <script>
+            window.alert('Photo not added. Please upload JPG or PNG photo only!');
+          </script>
+        <?php
+      }
+    }
 
     $sqlAddUser = "INSERT INTO users_tbl() VALUES (NULL, '$txtLastName', '$txtFirstName', '$txtMiddleName', 
-    '$txtEmail', '$txtAddress', '$txtContact', '$txtPassword', '$txtRPassword', '$img', '$date', 0, 0)";
+    '$txtEmail', '$txtAddress', '$txtContact', '$txtPassword', '$txtRPassword', '$location', '$date', 0, 0)";
     mysqli_query($dbConString, $sqlAddUser);
-    move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "../img/".$_FILES["fileUpload"]["name"]);
-
     header("location: users.php");
   }
 ?>
@@ -237,7 +253,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" role="form">
+              <form method="post" role="form" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="form-group">
                   <label for="exampleInputLastname1">Last Name</label>
@@ -272,21 +288,13 @@
                     <input type="password" class="form-control" id="exampleInputRPassword1" name="RPassword" placeholder="Retype Password">
                   </div>
                   <div class="form-group">
-                    <label for="exampleInputFile">Image</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="fileUpload" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose image</label>
-                      </div>
-                      <!-- <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div> -->
-                    </div>
+                    <label for="exampleInputImage">Image</label>
+                    <input type="file" style="height:44px;" class="form-control" name="image">
                   </div>
-                  <div class="form-check">
+                  <!-- <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- /.card-body -->
 
