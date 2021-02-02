@@ -222,9 +222,8 @@
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
-                <div class="text-center">
-                  <img src="tables/upload/<?php print $fetchUsers["users_image"]?>" class="media-object img-circle" style="width: 200px; height: 200px; border: 3px solid #007bff;"/>
-                </div>
+                
+                
 
                 <h3 class="profile-username text-center"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></h3>
 
