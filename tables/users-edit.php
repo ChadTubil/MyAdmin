@@ -21,15 +21,16 @@
     $txtContact = $_POST['Contact'];
     $txtPassword = $_POST['Password'];
     $txtRPassword = $_POST['RPassword'];
-    
 
     $sqlUpdate = "UPDATE users_tbl SET users_lastname='$txtLastName', users_firstname='$txtFirstName', 
-    users_middlename='$txtMiddleName', users_email='$txtEmail', users_address='$txtAddress', users_Contact='$txtContact', users_password='$txtPassword', users_rpassword='$txtRPassword'
-    WHERE users_id=$id";
+    users_middlename='$txtMiddleName', users_email='$txtEmail', users_address='$txtAddress', users_Contact='$txtContact', 
+    users_password='$txtPassword', users_rpassword='$txtRPassword' WHERE users_id=$id";
     mysqli_query($dbConString, $sqlUpdate);
-
+    
     header("location: users.php");
+    
   }
+  
 ?>
 
 
@@ -211,12 +212,12 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>New User</h1>
+            <h1>User Update</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="users.php">Users</a></li>
-              <li class="breadcrumb-item active">New User</li>
+              <li class="breadcrumb-item active">User Update</li>
             </ol>
           </div>
         </div>
@@ -270,18 +271,19 @@
                     <label for="exampleInputRPassword1">Retype Password</label>
                     <input type="password" class="form-control"  name="RPassword" value="<?php print $fetchUser['users_rpassword']; ?>">
                   </div>
-                  <div class="form-group">
+                  <!-- <div class="form-group">
                     <label for="exampleInputFile">Image</label>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" name="fileUpload" id="exampleInputFile">
-                        <label class="custom-file-label" for="exampleInputFile">Choose image</label>
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
-                      <!-- <div class="input-group-append">
-                        <span class="input-group-text">Upload</span>
-                      </div> -->
+                      <div class="input-group-append">
+                        <button type="reset" class="input-group-text">Clear</button> -->
+                        <!-- <span class="input-group-text">Clear</span> -->
+                      <!--</div>
                     </div>
-                  </div>
+                  </div> -->
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>

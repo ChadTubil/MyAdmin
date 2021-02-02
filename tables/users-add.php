@@ -10,7 +10,8 @@
 	// if ($dbConString->connect_error) {
 	//   die("Connection failed: " . $dbConString->connect_error);
 	// }
-	// echo "Connected successfully";
+  // echo "Connected successfully";
+  
   if(isset($_POST['btnSave'])) {
     $txtLastName = $_POST['Lastname'];
     $txtFirstName = $_POST['Firstname'];
@@ -22,29 +23,12 @@
     $txtRPassword = $_POST['RPassword'];
     $date = date('Y-m-d');
 
-    $fileInfo = PATHINFO($_FILES["image"]["name"]);
-    if (empty($_FILES["image"]["name"])){
-      $location="";
-    }
-    else{
-      if ($fileInfo['extension'] == "jpg" OR $fileInfo['extension'] == "png") {
-        $newFilename = $fileInfo['filename'] . "_" . time() . "." . $fileInfo['extension'];
-        move_uploaded_file($_FILES["image"]["tmp_name"], "../upload/" . $newFilename);
-        $location = "upload/" . $newFilename;
-      }
-      else{
-        $location="";
-        ?>
-          <script>
-            window.alert('Photo not added. Please upload JPG or PNG photo only!');
-          </script>
-        <?php
-      }
-    }
-
+    $img = $_FILES["fileUpload"]["name"];
+    
     $sqlAddUser = "INSERT INTO users_tbl() VALUES (NULL, '$txtLastName', '$txtFirstName', '$txtMiddleName', 
-    '$txtEmail', '$txtAddress', '$txtContact', '$txtPassword', '$txtRPassword', '$location', '$date', 0, 0)";
+    '$txtEmail', '$txtAddress', '$txtContact', '$txtPassword', '$txtRPassword', '$img', '$date', 0, 0)";
     mysqli_query($dbConString, $sqlAddUser);
+    move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "upload/".$_FILES["fileUpload"]["name"]);
     header("location: users.php");
   }
 ?>
@@ -64,6 +48,8 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="shortcut icon" href="../dist/img/AdminLTELogo.ico" type="image/x-icon" />
+
+  
 </head>
 <body class="hold-transition sidebar-mini">
 <div class="wrapper">
@@ -287,9 +273,33 @@
                     <label for="exampleInputRPassword1">Retype Password</label>
                     <input type="password" class="form-control" id="exampleInputRPassword1" name="RPassword" placeholder="Retype Password">
                   </div>
+                  <!-- <div class="form-group">
+                    <label class="col-sm-2 control-label">Image</label>
+                    <div class="col-sm-8">
+                      <div class="fileinput fileinput-new" data-provides="fileinput">
+                        <div class="fileinput-new thumbnail" style="width: 200px; height: 150px;">
+                          <img data-src="holder.js/200x150/blankon/text:Static image" alt="...">
+                        </div>
+                        <div class="fileinput-preview fileinput-exists thumbnail" data-trigger="fileinput" style="width: 200px; height: 150px;"></div><div>
+                          <span class="btn btn-primary btn-file"><span class="fileinput-new">Select image</span><span class="fileinput-exists">Change</span><input type="file" name="fileUpload"></span>
+                          <a href="#" class="btn btn-danger fileinput-exists" data-dismiss="fileinput">Remove</a>
+                        </div>
+                      </div>
+                     </div>
+                  </div> -->
                   <div class="form-group">
-                    <label for="exampleInputImage">Image</label>
-                    <input type="file" style="height:44px;" class="form-control" name="image">
+                    <label for="exampleInputFile">Image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      
+                      <div class="input-group-append">
+                        <button type="reset" class="input-group-text">Clear</button>
+                        <!-- <span class="input-group-text">Clear</span> -->
+                      </div>
+                    </div>
                   </div>
                   <!-- <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
@@ -338,6 +348,7 @@
 <!-- AdminLTE for demo purposes -->
 <script src="../dist/js/demo.js"></script>
 <!-- Page specific script -->
+<!-- <script src="../assets/global/plugins/bower_components/holderjs/holder.js"></script> -->
 <script>
 $(function () {
   bsCustomFileInput.init();

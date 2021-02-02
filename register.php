@@ -10,8 +10,8 @@
     $txtRPassword = $_POST['txtRPassword'];
     $date = date('Y-m-d');
 
-    $sqlAddUser = "INSERT INTO users_tbl() VALUES(NULL, '$txtLastName', '$txtFirstName', '$txtMiddleName', 
-    '$txtEmail', '$txtPassword', '$txtRPassword', 0, '$date', 0, 0)";
+    $sqlAddUser = "INSERT INTO users_tbl() VALUES (NULL, '$txtLastName', '$txtFirstName', '$txtMiddleName', 
+    '$txtEmail', '$txtAddress', '$txtContact', '$txtPassword', '$txtRPassword', '$img', '$date', 0, 0)";
     mysqli_query($dbConString, $sqlAddUser);
 
     header("location: index.php");

@@ -11,6 +11,9 @@
   $queryUsers = mysqli_query($dbConString, $sqlUsers);
   $fetchUsers = mysqli_fetch_assoc($queryUsers);
 
+  $image = $fetchUsers['users_image'];
+  $image_src = "tables/upload/".$image;
+
 ?>
 
 <!DOCTYPE html>
@@ -93,10 +96,10 @@
       <!-- Sidebar user panel (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="tables/upload/<?php print $fetchUsers["users_image"]?>" class="img-circle elevation-2" style="width: 40px; height: 40px;">
         </div>
         <div class="info">
-          <a href="profile.php" class="d-block"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></a>
+          <a href="profile.php" class="d-block"><?php print ucwords($_SESSION["users_firstname"]); ?></a>
         </div>
       </div>
 
@@ -220,9 +223,7 @@
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
                 <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="dist/img/user2-160x160.jpg"
-                       alt="User profile picture">
+                  <img src="tables/upload/<?php print $fetchUsers["users_image"]?>" class="media-object img-circle" style="width: 200px; height: 200px; border: 3px solid #007bff;"/>
                 </div>
 
                 <h3 class="profile-username text-center"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></h3>
