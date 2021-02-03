@@ -32,6 +32,16 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="dist/css/adminlte.min.css">
   <link rel="shortcut icon" href="dist/img/AdminLTELogo.ico" type="image/x-icon" />
+
+<style>
+.containerphoto {position: relative; width: 100%; max-width: 400px;}
+.containerphoto img {width: 100%; height: auto;}
+.containerphoto .btn {position: absolute; top: 5%; left: 96%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); 
+background-color: #0069d9; color: white; font-size: 16px; padding: 3px 7px; border: none; cursor: pointer; border-radius: 5px; text-align: 
+center;}
+.containerphoto .btn:hover {background-color: black;}
+</style>
+
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -212,7 +222,6 @@
         </div>
       </div><!-- /.container-fluid -->
     </section>
-
     <!-- Main content -->
     <section class="content">
       <div class="container-fluid">
@@ -222,9 +231,10 @@
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
-                
-                
-
+                <div class="text-center containerphoto">
+                  <img src="tables/upload/<?php print $fetchUsers["users_image"]?>" class="img-circle elevation-2" style="width: 180px; height: 180px;">
+                  <button class="btn" alt="Edit Image"><i class="fa fa-edit"></i></button>  
+                </div>
                 <h3 class="profile-username text-center"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></h3>
 
                 <p class="text-muted text-center"><?php print ucwords($fetchUsers['users_email']) ?></p>

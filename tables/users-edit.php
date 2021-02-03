@@ -27,8 +27,13 @@
     users_password='$txtPassword', users_rpassword='$txtRPassword' WHERE users_id=$id";
     mysqli_query($dbConString, $sqlUpdate);
     
+
     header("location: users.php");
     
+  }
+
+  if(isset($_POST['btnImageUpdate'])){
+    echo "Di ko pa alam pano mag update ng picture!!!!!";
   }
   
 ?>
@@ -233,7 +238,7 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Fill up the following</h3>
+                <h3 class="card-title">Update the following</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -271,19 +276,7 @@
                     <label for="exampleInputRPassword1">Retype Password</label>
                     <input type="password" class="form-control"  name="RPassword" value="<?php print $fetchUser['users_rpassword']; ?>">
                   </div>
-                  <!-- <div class="form-group">
-                    <label for="exampleInputFile">Image</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <button type="reset" class="input-group-text">Clear</button> -->
-                        <!-- <span class="input-group-text">Clear</span> -->
-                      <!--</div>
-                    </div>
-                  </div> -->
+                  
                   <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
@@ -298,6 +291,38 @@
             </div>
           </div>
           <!--/.col (right) -->
+          <!-- right column -->
+          <div class="col-md-4">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Update Image</h3>
+              </div>
+              <form method="post" role="form">
+                <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputFile">Image</label>
+                    <br>
+                    <div class="text-center">
+                      <img src="upload/<?php print $fetchUser["users_image"]?>" class="img-circle elevation-2" style="width: 150px; height: 150px;">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload" value="">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <button type="reset" class="input-group-text">Clear</button>
+                        <button type="submit" name="btnImageUpdate" class="btn btn-primary">Update</button>
+                        <!-- <span class="input-group-text">Clear</span> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>    
+          </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
