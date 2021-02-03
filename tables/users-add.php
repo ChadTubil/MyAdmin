@@ -11,6 +11,9 @@
 	//   die("Connection failed: " . $dbConString->connect_error);
 	// }
   // echo "Connected successfully";
+  $sqlUsers = "SELECT * FROM users_tbl WHERE users_id = $_SESSION[users_id]";
+  $queryUsers = mysqli_query($dbConString, $sqlUsers);
+  $fetchUsers = mysqli_fetch_assoc($queryUsers);
   
   if(isset($_POST['btnSave'])) {
     $txtLastName = $_POST['Lastname'];
@@ -109,10 +112,10 @@
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
         <div class="image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+          <img src="upload/<?php print $fetchUsers["users_image"]?>" class="img-circle elevation-2" style="width: 40px; height: 40px;">
         </div>
         <div class="info">
-          <a href="../profile.php" class="d-block"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></a>
+          <a href="../profile.php" class="d-block"><?php print $fetchUsers["users_firstname"]?></a>
         </div>
       </div>
 

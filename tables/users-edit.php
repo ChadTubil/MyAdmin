@@ -111,11 +111,11 @@
     <div class="sidebar">
       <!-- Sidebar user (optional) -->
       <div class="user-panel mt-3 pb-3 mb-3 d-flex">
-        <div class="image">
-          <img src="../dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
+      <div class="image">
+          <img src="upload/<?php print $fetchUser["users_image"]?>" class="img-circle elevation-2" style="width: 40px; height: 40px;">
         </div>
         <div class="info">
-          <a href="../profile.php" class="d-block"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></a>
+          <a href="../profile.php" class="d-block"><?php print $fetchUser["users_firstname"]?></a>
         </div>
       </div>
 
