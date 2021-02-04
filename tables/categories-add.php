@@ -6,6 +6,9 @@
   if(!(isset($_SESSION["users_id"]))) {
     header("location: ../index.php");
   }
+  $sqlUsers = "SELECT * FROM users_tbl WHERE users_id = $_SESSION[users_id]";
+  $queryUsers = mysqli_query($dbConString, $sqlUsers);
+  $fetchUsers = mysqli_fetch_assoc($queryUsers);
 
   if(isset($_POST['btnSave'])) {
     $txtCategory = $_POST['Category'];

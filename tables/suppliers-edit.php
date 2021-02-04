@@ -7,6 +7,10 @@
     header("location: ../index.php");
   }
 
+  $sqlUsers = "SELECT * FROM users_tbl WHERE users_id = $_SESSION[users_id]";
+  $queryUsers = mysqli_query($dbConString, $sqlUsers);
+  $fetchUsers = mysqli_fetch_assoc($queryUsers);
+
   $id = $_GET['id'];
   $sqlSupplier = "SELECT * FROM suppliers_tbl WHERE supp_id=$id";
   $querySupplier = mysqli_query($dbConString, $sqlSupplier);
