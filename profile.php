@@ -233,7 +233,7 @@ center;}
               <div class="card-body box-profile">
                 <div class="text-center containerphoto">
                   <img src="tables/upload/<?php print $fetchUsers["users_image"]?>" class="img-circle elevation-2" style="width: 180px; height: 180px;">
-                  <button class="btn" alt="Edit Image"><i class="fa fa-edit"></i></button>  
+                  <button class="btn" type="button" onclick="document.location.href='tables/users-edit.php?id=<?php print  $_SESSION['users_id']; ?>'"><i class="fa fa-edit"></i></button>  
                 </div>
                 <h3 class="profile-username text-center"><?php print ucwords($_SESSION["users_firstname"])." ".ucwords($_SESSION["users_middlename"])." ".ucwords($_SESSION["users_lastname"]); ?></h3>
 

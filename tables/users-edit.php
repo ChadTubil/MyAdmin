@@ -291,10 +291,10 @@
                     <input type="password" class="form-control"  name="RPassword" value="<?php print $fetchUser['users_rpassword']; ?>">
                   </div>
                   
-                  <div class="form-check">
+                  <!-- <div class="form-check">
                     <input type="checkbox" class="form-check-input" id="exampleCheck1">
                     <label class="form-check-label" for="exampleCheck1">Check me out</label>
-                  </div>
+                  </div> -->
                 </div>
                 <!-- /.card-body -->
 
