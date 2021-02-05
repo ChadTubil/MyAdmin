@@ -33,7 +33,21 @@
   }
 
   if(isset($_POST['btnImageUpdate'])){
-    echo "Di ko pa alam pano mag update ng picture!!!!!";
+    // echo "Di ko pa alam pano mag update ng picture!!!!!";
+    $edit_image = $_FILES["fileUpload"]['name'];
+
+    $queryImageUpdate = "UPDATE users_tbl SET users_image = '$edit_image' WHERE users_id=$id";
+    $queryRun = mysqli_query($dbConString, $queryImageUpdate);
+
+    if($queryRun){
+      move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "upload/".$_FILES["fileUpload"]["name"]);
+      $_SESSION['success'] = "Image Updated";
+      header('Location: users.php');
+    }else{
+      $_SESSION['status'] = "Image not Updated";
+      header('Location: users.php');
+    }
+
   }
   
 ?>
@@ -297,7 +311,7 @@
               <div class="card-header">
                 <h3 class="card-title">Update Image</h3>
               </div>
-              <form method="post" role="form">
+              <form method="post" enctype="multipart/form-data">
                 <div class="card-body">
                 <div class="form-group">
                     <label for="exampleInputFile">Image</label>
@@ -309,7 +323,7 @@
                     <br>
                     <div class="input-group">
                       <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload" value="">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload" value="<?php print $fetchUser['users_image']; ?>">
                         <label class="custom-file-label" for="exampleInputFile">Choose file</label>
                       </div>
                       <div class="input-group-append">
