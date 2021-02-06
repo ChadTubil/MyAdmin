@@ -228,6 +228,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                     <tr>
+                      <th>Image</th>
                       <th>Name</th>
                       <th>Condition</th>
                       <th>Cost</th> 
@@ -247,6 +248,7 @@
                       while($fetchProducts = mysqli_fetch_assoc($queryProducts)) {
                     ?>
                     <tr>
+                      <td><?php print $fetchProducts["prod_image"]; ?></td>
                       <td><?php print $fetchProducts["prod_name"]; ?></td>
                       <td><?php print $fetchProducts["prod_status"]; ?></td>
                       <td><?php print $fetchProducts["prod_cost"]; ?></td>
@@ -266,6 +268,7 @@
                   </tbody>
                   <tfoot>
                   <tr>
+                    <th>Image</th>
                     <th>Name</th>
                     <th>Condition</th>
                     <th>Cost</th> 
