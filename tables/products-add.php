@@ -20,10 +20,12 @@
     $txtDescription = $_POST['Description'];
     $date = date('Y-m-d');
 
-    $sqlAddProduct = "INSERT INTO products_tbl() VALUES (NULL, '$txtCategory', '$txtSupplier', '$txtName', '$txtCost', 
-    '$txtPrice', 0, '$date', 0, '$date', '$txtStatus', '$txtDescription', 0)";
-    mysqli_query($dbConString, $sqlAddProduct);
+    $img = $_FILES["fileUpload"]["name"];
 
+    $sqlAddProduct = "INSERT INTO products_tbl() VALUES (NULL, '$txtCategory', '$txtSupplier', '$txtName', '$txtCost', 
+    '$txtPrice', 0, '$date', 0, '$img', '$date', '$txtStatus', '$txtDescription', 0)";
+    mysqli_query($dbConString, $sqlAddProduct);
+    move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "upload/".$_FILES["fileUpload"]["name"]);
     header("location: products.php");
   }
 ?>
@@ -245,7 +247,7 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" role="form">
+              <form method="post" role="form" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="form-group">
                   <label for="exampleInputName1">Name</label>
@@ -300,6 +302,19 @@
                   <div class="form-group">
                   <label for="exampleInputDescription1">Description</label>
                     <textarea class="form-control" name="Description"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputFile">Image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <button type="reset" class="input-group-text">Clear</button>
+                        <!-- <span class="input-group-text">Clear</span> -->
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!-- /.card-body -->

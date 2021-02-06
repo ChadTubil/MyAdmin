@@ -248,7 +248,7 @@
                       while($fetchProducts = mysqli_fetch_assoc($queryProducts)) {
                     ?>
                     <tr>
-                      <td><?php print $fetchProducts["prod_image"]; ?></td>
+                      <td style="text-align: center; vertical-align: middle;"><img src="upload/<?php print $fetchProducts["prod_image"]?>" style="width: 100px; height: 80px;"></td>
                       <td><?php print $fetchProducts["prod_name"]; ?></td>
                       <td><?php print $fetchProducts["prod_status"]; ?></td>
                       <td><?php print $fetchProducts["prod_cost"]; ?></td>

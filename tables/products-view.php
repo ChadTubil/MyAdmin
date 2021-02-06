@@ -34,6 +34,15 @@
   <!-- Theme style -->
   <link rel="stylesheet" href="../dist/css/adminlte.min.css">
   <link rel="shortcut icon" href="../dist/img/AdminLTELogo.ico" type="image/x-icon" />
+
+  <style>
+  .containerphoto {position: relative; width: 100%; max-width: 400px;}
+  .containerphoto img {width: 100%; height: auto;}
+  .containerphoto .btn {position: absolute; top: 5%; left: 96%; transform: translate(-50%, -50%); -ms-transform: translate(-50%, -50%); 
+  background-color: #0069d9; color: white; font-size: 16px; padding: 3px 7px; border: none; cursor: pointer; border-radius: 5px; text-align: 
+  center;}
+  .containerphoto .btn:hover {background-color: black;}
+  </style>
 </head>
 <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
 <div class="wrapper">
@@ -232,10 +241,9 @@
             <!-- Profile Image -->
             <div class="card card-primary card-outline">
               <div class="card-body box-profile">
-                <div class="text-center">
-                  <img class="profile-user-img img-fluid img-circle"
-                       src="../dist/img/user2-160x160.jpg"
-                       alt="User profile picture">
+                <div class="text-center containerphoto">
+                  <img src="upload/<?php print $fetchProducts["prod_image"]?>" class="img-circle elevation-2" style="width: 180px; height: 180px;">
+                  <button class="btn" type="button" onclick="document.location.href='tables/users-edit.php?id=<?php print  $_SESSION['users_id']; ?>'"><i class="fa fa-edit"></i></button>  
                 </div>
 
                 <h3 class="profile-username text-center"><?php print ucwords($fetchProducts['prod_name']) ?></h3>
@@ -256,7 +264,8 @@
                     <b>Available Stocks</b> <h6 class="float-right"><?php print ucwords($fetchProducts['prod_quantity']) ?></h6>
                   </li>
                   <li class="list-group-item">
-                    <b>Description</b> <h6 class="float-right"><?php print ucwords($fetchProducts['prod_description']) ?></h6>
+                    <b>Description</b>
+                    <h6 class="float-left"><?php print ucwords($fetchProducts['prod_description']) ?></h6>
                   </li>
                 </ul>
 
