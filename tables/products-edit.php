@@ -10,7 +10,12 @@
   $queryUsers = mysqli_query($dbConString, $sqlUsers);
   $fetchUsers = mysqli_fetch_assoc($queryUsers);
 
-  if(isset($_POST['btnSave'])) {
+  $id = $_GET['id'];
+  $sqlProducts = "SELECT * FROM products_tbl WHERE prod_id = $id";
+  $queryProducts = mysqli_query($dbConString, $sqlProducts);
+  $fetchProducts = mysqli_fetch_assoc($queryProducts);
+
+  if(isset($_POST['btnUpdate'])){
     $txtName = $_POST['Name'];
     $txtCategory = $_POST['cat_name'];
     $txtSupplier = $_POST['supp_name'];
@@ -19,14 +24,33 @@
     $txtPrice = $_POST['Price'];
     $txtDescription = $_POST['Description'];
     $date = date('Y-m-d');
+    
+    $sqlUpdate = "UPDATE products_tbl SET prod_name='$txtName',
+    prod_cat_name='$txtCategory', prod_supp_name='$txtSupplier',
+    prod_status='$txtStatus', prod_cost='$txtCost', prod_price='$txtPrice',
+    prod_description='$txtDescription'
+    WHERE prod_id = $id";
+    // echo $sqlUpdate;
+    mysqli_query($dbConString, $sqlUpdate);
 
-    $img = $_FILES["fileUpload"]["name"];
-
-    $sqlAddProduct = "INSERT INTO products_tbl() VALUES (NULL, '$txtCategory', '$txtSupplier', '$txtName', '$txtCost', 
-    '$txtPrice', 0, '$date', 0, '$img', '$date', '$txtStatus', '$txtDescription', 0)";
-    mysqli_query($dbConString, $sqlAddProduct);
-    move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "upload/".$_FILES["fileUpload"]["name"]);
     header("location: products.php");
+  }
+  if(isset($_POST['btnImageUpdate'])){
+    // echo "Di ko pa alam pano mag update ng picture!!!!!";
+    $edit_image = $_FILES["fileUpload"]['name'];
+
+    $queryImageUpdate = "UPDATE products_tbl SET prod_image = '$edit_image' WHERE prod_id=$id";
+    $queryRun = mysqli_query($dbConString, $queryImageUpdate);
+
+    if($queryRun){
+      move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "upload/".$_FILES["fileUpload"]["name"]);
+      $_SESSION['success'] = "Image Updated";
+      header('Location: products.php');
+    }else{
+      $_SESSION['status'] = "Image not Updated";
+      header('Location: products.php');
+    }
+
   }
 ?>
 
@@ -243,7 +267,7 @@
             <!-- general form elements -->
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">Fill up the following</h3>
+                <h3 class="card-title">Update the following</h3>
               </div>
               <!-- /.card-header -->
               <!-- form start -->
@@ -251,12 +275,13 @@
                 <div class="card-body">
                   <div class="form-group">
                   <label for="exampleInputName1">Name</label>
-                    <input type="text" class="form-control" id="exampleName1" name="Name" placeholder="Enter Name">
+                    <input type="text" class="form-control" id="exampleName1" name="Name" value="<?php print $fetchProducts['prod_name']; ?>">
                   </div>
                   <div class="form-group">
                   <label for="exampleInputCategory1">Category</label>
                     <select class="form-control" name="cat_name">
-                      <option>--Select Category--</option>
+                      <option><?php print $fetchProducts['prod_cat_name']; ?></option>
+                      <option>_____________</option>
                       <?php
                           $category = mysqli_query($dbConString, "SELECT cat_name From categories_tbl");  // Use select query here 
 
@@ -270,7 +295,8 @@
                   <div class="form-group">
                   <label for="exampleInputSupplier1">Supplier | Brand Partner</label>
                   <select class="form-control" name="supp_name">
-                      <option>--Select--</option>
+                      <option><?php print $fetchProducts['prod_supp_name']; ?></option>
+                      <option>_____________</option>
                       <?php
                           $supplier = mysqli_query($dbConString, "SELECT supp_name From suppliers_tbl");  // Use select query here 
 
@@ -284,7 +310,8 @@
                   <div class="form-group">
                   <label for="exampleInputStatus1">Condition</label>
                     <select class="form-control" name="status">
-                      <option>--Select--</option>
+                      <option><?php print $fetchProducts['prod_status']; ?></option>
+                      <option>_____________</option>
                       <option value="New">New</option>
                       <option value="Used - Like New">Used - Like New</option>
                       <option value="Used - Good">Used - Good</option>
@@ -293,39 +320,58 @@
                   </div>
                   <div class="form-group">
                   <label for="exampleInputCost1">Cost</label>
-                    <input type="number" class="form-control" id="exampleCost1" name="Cost">
+                    <input type="number" class="form-control" id="exampleCost1" name="Cost" value="<?php print $fetchProducts['prod_cost']; ?>">
                   </div>
                   <div class="form-group">
                   <label for="exampleInputPrice1">Price</label>
-                    <input type="number" class="form-control" id="examplePrice1" name="Price">
+                    <input type="number" class="form-control" id="examplePrice1" name="Price" value="<?php print $fetchProducts['prod_price']; ?>">
                   </div>
                   <div class="form-group">
                   <label for="exampleInputDescription1">Description</label>
-                    <textarea class="form-control" name="Description"></textarea>
-                  </div>
-                  <div class="form-group">
-                    <label for="exampleInputFile">Image</label>
-                    <div class="input-group">
-                      <div class="custom-file">
-                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload">
-                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
-                      </div>
-                      <div class="input-group-append">
-                        <button type="reset" class="input-group-text">Clear</button>
-                        <!-- <span class="input-group-text">Clear</span> -->
-                      </div>
-                    </div>
+                    <input class="form-control" name="Description" value="<?php print $fetchProducts['prod_description']; ?>">
                   </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" name="btnSave" class="btn btn-primary">Submit</button>
+                  <button type="submit" name="btnUpdate" class="btn btn-primary">Update</button>
                 </div>
               </form>
             </div>
           </div>
           <!--/.col (right) -->
+          <!-- right column -->
+          <div class="col-md-4">
+            <div class="card card-primary">
+              <div class="card-header">
+                <h3 class="card-title">Update Product Image</h3>
+              </div>
+              <form method="post" enctype="multipart/form-data">
+                <div class="card-body">
+                <div class="form-group">
+                    <label for="exampleInputFile">Image</label>
+                    <br>
+                    <div class="text-center">
+                      <img src="upload/<?php print $fetchProducts["prod_image"]?>" class="img-circle elevation-2" style="width: 150px; height: 150px;">
+                    </div>
+                    <br>
+                    <br>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload" value="<?php print $fetchProducts['prod_image']; ?>">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <button type="reset" class="input-group-text">Clear</button>
+                        <button type="submit" name="btnImageUpdate" class="btn btn-primary">Update</button>
+                        <!-- <span class="input-group-text">Clear</span> -->
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </form>
+            </div>    
+          </div>
         </div>
         <!-- /.row -->
       </div><!-- /.container-fluid -->
