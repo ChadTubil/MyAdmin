@@ -229,7 +229,7 @@
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="suppliers.php">Suppliers & Brand Partners</a></li>
-              <li class="breadcrumb-item active">Edit</li>
+              <li class="breadcrumb-item active">Update</li>
             </ol>
           </div>
         </div>

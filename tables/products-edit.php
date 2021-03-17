@@ -10,19 +10,23 @@
   $queryUsers = mysqli_query($dbConString, $sqlUsers);
   $fetchUsers = mysqli_fetch_assoc($queryUsers);
 
-  $id = $_GET['id'];
-  $sqlCategory = "SELECT * FROM categories_tbl WHERE cat_id=$id";
-  $queryCategory = mysqli_query($dbConString, $sqlCategory);
-  $fetchCategory = mysqli_fetch_assoc($queryCategory);
+  if(isset($_POST['btnSave'])) {
+    $txtName = $_POST['Name'];
+    $txtCategory = $_POST['cat_name'];
+    $txtSupplier = $_POST['supp_name'];
+    $txtStatus = $_POST['status'];
+    $txtCost = $_POST['Cost'];
+    $txtPrice = $_POST['Price'];
+    $txtDescription = $_POST['Description'];
+    $date = date('Y-m-d');
 
-  if(isset($_POST['btnUpdate'])) {
-    $txtCategory = $_POST['Category'];
-    $txtDescription = $_POST['Description'];  
+    $img = $_FILES["fileUpload"]["name"];
 
-    $sqlUpdate = "UPDATE categories_tbl SET cat_name='$txtCategory', cat_description='$txtDescription' WHERE cat_id=$id";
-    mysqli_query($dbConString, $sqlUpdate);
-
-    header("location: categories.php");
+    $sqlAddProduct = "INSERT INTO products_tbl() VALUES (NULL, '$txtCategory', '$txtSupplier', '$txtName', '$txtCost', 
+    '$txtPrice', 0, '$date', 0, '$img', '$date', '$txtStatus', '$txtDescription', 0)";
+    mysqli_query($dbConString, $sqlAddProduct);
+    move_uploaded_file($_FILES["fileUpload"]["tmp_name"], "upload/".$_FILES["fileUpload"]["name"]);
+    header("location: products.php");
   }
 ?>
 
@@ -32,7 +36,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Admin | Categories</title>
+  <title>Admin | Products</title>
 
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
@@ -95,7 +99,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="../dashboard" class="brand-link">
+    <a href="../idashboard" class="brand-link">
       <img src="../dist/img/AdminLTELogo.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Admin</span>
     </a>
@@ -155,7 +159,7 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/categories.php" class="nav-link active">
+                <a href="../tables/categories.php" class="nav-link">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Categories</p>
                 </a>
@@ -171,7 +175,7 @@
             </ul>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="../tables/products.php" class="nav-link">
+                <a href="../tables/products.php" class="nav-link active">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Products</p>
                 </a>
@@ -218,11 +222,11 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            <h1>Edit Category</h1>
+            <h1>New Product</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="categories.php">Categories</a></li>
+              <li class="breadcrumb-item"><a href="categories.php">Products</a></li>
               <li class="breadcrumb-item active">Update</li>
             </ol>
           </div>
@@ -243,21 +247,80 @@
               </div>
               <!-- /.card-header -->
               <!-- form start -->
-              <form method="post" role="form">
+              <form method="post" role="form" enctype="multipart/form-data">
                 <div class="card-body">
                   <div class="form-group">
+                  <label for="exampleInputName1">Name</label>
+                    <input type="text" class="form-control" id="exampleName1" name="Name" placeholder="Enter Name">
+                  </div>
+                  <div class="form-group">
                   <label for="exampleInputCategory1">Category</label>
-                    <input type="text" class="form-control" id="exampleCategory1" name="Category" value="<?php print $fetchCategory['cat_name']; ?>">
+                    <select class="form-control" name="cat_name">
+                      <option>--Select Category--</option>
+                      <?php
+                          $category = mysqli_query($dbConString, "SELECT cat_name From categories_tbl");  // Use select query here 
+
+                          while($data = mysqli_fetch_array($category))
+                          {
+                              echo "<option value='". $data['cat_name'] ."'>" .$data['cat_name'] ."</option>";  // displaying data in option menu
+                          }	
+                      ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputSupplier1">Supplier | Brand Partner</label>
+                  <select class="form-control" name="supp_name">
+                      <option>--Select--</option>
+                      <?php
+                          $supplier = mysqli_query($dbConString, "SELECT supp_name From suppliers_tbl");  // Use select query here 
+
+                          while($data = mysqli_fetch_array($supplier))
+                          {
+                              echo "<option value='". $data['supp_name'] ."'>" .$data['supp_name'] ."</option>";  // displaying data in option menu
+                          }	
+                      ?>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputStatus1">Condition</label>
+                    <select class="form-control" name="status">
+                      <option>--Select--</option>
+                      <option value="New">New</option>
+                      <option value="Used - Like New">Used - Like New</option>
+                      <option value="Used - Good">Used - Good</option>
+                      <option value="Used - Fair">Used - Fair</option>
+                    </select>
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputCost1">Cost</label>
+                    <input type="number" class="form-control" id="exampleCost1" name="Cost">
+                  </div>
+                  <div class="form-group">
+                  <label for="exampleInputPrice1">Price</label>
+                    <input type="number" class="form-control" id="examplePrice1" name="Price">
                   </div>
                   <div class="form-group">
                   <label for="exampleInputDescription1">Description</label>
-                    <input type="text" class="form-control" id="exampleDescription1" name="Description" value="<?php print $fetchCategory['cat_description']; ?>">
+                    <textarea class="form-control" name="Description"></textarea>
+                  </div>
+                  <div class="form-group">
+                    <label for="exampleInputFile">Image</label>
+                    <div class="input-group">
+                      <div class="custom-file">
+                        <input type="file" class="custom-file-input" id="exampleInputFile" name="fileUpload">
+                        <label class="custom-file-label" for="exampleInputFile">Choose file</label>
+                      </div>
+                      <div class="input-group-append">
+                        <button type="reset" class="input-group-text">Clear</button>
+                        <!-- <span class="input-group-text">Clear</span> -->
+                      </div>
+                    </div>
                   </div>
                 </div>
                 <!-- /.card-body -->
 
                 <div class="card-footer">
-                  <button type="submit" name="btnUpdate" class="btn btn-primary">Update</button>
+                  <button type="submit" name="btnSave" class="btn btn-primary">Submit</button>
                 </div>
               </form>
             </div>
