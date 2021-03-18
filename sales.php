@@ -192,6 +192,7 @@
               </li>
             </ul>
           </li>
+          <li class="nav-header"></li>
           <li class="nav-item menu-open">
             <a href="sales.php" class="nav-link active">
               <i class="nav-icon fas fa-shopping-cart"></i>
@@ -220,17 +221,32 @@
                 <h3 class="card-title">CASHIER</h3>
               </div>
               <!-- form start -->
-              <div class="col-md-10 offset-md-0">
+              <div class="col-md-12 offset-md-0">
               <br>
-                <form action="" method="GET"> 
+                <form method="get" role="form" enctype="multipart/form-data"> 
                   <div class="input-group">
                     <input type="text" name="search" class="form-control form-control-lg" autofocus><br /> 
                     <div class="input-group-append">
-                      <button type="submit" name="btn" value="Search" class="btn btn-lg btn-default"><i class="fa fa-search"></i></button>     
+                      <button type="submit" name="btnSearch" class="btn btn-lg btn-default"><i class="fa fa-search"></i></button>     
                     </div>
                   </div>  
                 </form>
-              </div>  
+              </div> 
+              <br>
+              <div class="col-md-12 offset-md-0">
+                <div class="list-group">
+                  <div class="list-group-item">
+                    <div class="row">
+                      <div class="col px-4">
+                        <div>
+                          <div class="float-right">2020-04-20 04:04pm</div>
+                          <h3>AAAAAAAAAAA</h3>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div> 
+              <br>
             </div>
           </div>
         </div>
