@@ -6,11 +6,17 @@
   if(!(isset($_SESSION["users_id"]))) {
     header("location: index.php");
   }
-
+  
   $sqlUsers = "SELECT * FROM users_tbl WHERE users_id = $_SESSION[users_id]";
   $queryUsers = mysqli_query($dbConString, $sqlUsers);
   $fetchUsers = mysqli_fetch_assoc($queryUsers);
+  $userid = $fetchUsers['users_id'];
 
+  if(isset($_POST['btnSearch'])) {
+    $txtSearch = $_POST['search'];
+    
+    header("location: search.php?id=$txtSearch&userid=$userid");
+  }
 ?>
 
 <!DOCTYPE html>
@@ -223,11 +229,11 @@
               <!-- form start -->
               <div class="col-md-12 offset-md-0">
               <br>
-                <form method="get" role="form" enctype="multipart/form-data"> 
+                <form method="post" role="form" enctype="multipart/form-data"> 
                   <div class="input-group">
                     <input type="text" name="search" class="form-control form-control-lg" autofocus><br /> 
                     <div class="input-group-append">
-                      <button type="submit" name="btnSearch" class="btn btn-lg btn-default"><i class="fa fa-search"></i></button>     
+                      <button type="submit" name="btnSearch"  class="btn btn-lg btn-default"><i class="fa fa-search"></i></button>     
                     </div>
                   </div>  
                 </form>
@@ -238,10 +244,35 @@
                   <div class="list-group-item">
                     <div class="row">
                       <div class="col px-4">
-                        <div>
-                          <div class="float-right">2020-04-20 04:04pm</div>
-                          <h3>AAAAAAAAAAA</h3>
-                        </div>
+                        <table id="example1" class="table ">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Quantity</th>
+                              <th>Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+                              $sqlCart = "SELECT * FROM cart_tbl WHERE cart_isdel = 0";
+                              $queryCart = mysqli_query($dbConString, $sqlCart);
+                              while($fetchCart = mysqli_fetch_assoc($queryCart)) {
+
+                                $sqlProd  = "SELECT * FROM products_tbl WHERE prod_id = '$fetchCart[cart_prod_id]'";
+                                $queryProd = mysqli_query($dbConString, $sqlProd);
+                                $fetchProd = mysqli_fetch_assoc($queryProd);
+                                $prodname = $fetchProd['prod_name'];
+                            ?>
+                            <tr>
+                              <td><?php print $prodname; ?></td>
+                              <td><?php print $fetchCart["cart_prod_qty"]; ?></td>
+                              <td><?php print $fetchCart["cart_prod_price"]; ?></td>
+                            </tr>
+                            <?php
+                              }
+                            ?>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
