@@ -238,10 +238,30 @@
                   <div class="list-group-item">
                     <div class="row">
                       <div class="col px-4">
-                        <div>
-                          <div class="float-right">2020-04-20 04:04pm</div>
-                          <h3>AAAAAAAAAAA</h3>
-                        </div>
+                        <table id="example1" class="table ">
+                          <thead>
+                            <tr>
+                              <th>Name</th>
+                              <th>Quantity</th>
+                              <th>Price</th>
+                            </tr>
+                          </thead>
+                          <tbody>
+                            <?php
+                              $sqlCart = "SELECT * FROM cart_tbl WHERE cart_isdel = 0";
+                              $queryCart = mysqli_query($dbConString, $sqlCart);
+                              while($fetchCart = mysqli_fetch_assoc($queryCart)) {
+                            ?>
+                            <tr>
+                              <td><?php print $fetchCart["cart_prod_name"]; ?></td>
+                              <td><?php print $fetchCart["cart_prod_qty"]; ?></td>
+                              <td><?php print $fetchCart["cart_prod_price"]; ?></td>
+                            </tr>
+                            <?php
+                              }
+                            ?>
+                          </tbody>
+                        </table>
                       </div>
                     </div>
                   </div>
