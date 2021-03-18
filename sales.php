@@ -224,7 +224,7 @@
               <br>
                 <form action="" method="GET"> 
                   <div class="input-group">
-                    <input type="text" name="search" class="form-control form-control-lg"><br /> 
+                    <input type="text" name="search" class="form-control form-control-lg" autofocus><br /> 
                     <div class="input-group-append">
                       <button type="submit" name="btn" value="Search" class="btn btn-lg btn-default"><i class="fa fa-search"></i></button>     
                     </div>
