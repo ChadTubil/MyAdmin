@@ -13,9 +13,25 @@
   $userid = $fetchUsers['users_id'];
 
   if(isset($_POST['btnSearch'])) {
-    $txtSearch = $_POST['search'];
     
-    header("location: search.php?id=$txtSearch&userid=$userid");
+    $txtSearch = $_POST['search'];
+    if($txtSearch != ''){
+      $sqlChecking = "SELECT prod_id FROM products_tbl WHERE prod_id = '$txtSearch'";
+      $queryCheck = mysqli_query($dbConString, $sqlChecking);
+      $fetchCheck = mysqli_fetch_assoc($queryCheck);
+      $check = $fetchCheck['prod_id'];
+
+      if($check != $txtSearch){
+        header("location: sales.php");
+      }else{
+        header("location: search.php?id=$txtSearch&userid=$userid");
+      }
+    }else{
+      header("location: sales.php");
+    }
+    
+
+    
   }
 
   if(isset($_POST["btnConfirm"])){
@@ -232,17 +248,17 @@
       <div class="container-fluid">
         <div class="row">
           <!-- left column -->
-          <div class="col-md-8">
+          <div class="col-md-9" >
             <div class="card card-primary">
               <div class="card-header">
-                <h3 class="card-title">CASHIER</h3>
+                <h3 class="card-title">SALES</h3>
               </div>
               <!-- form start -->
               <div class="col-md-12 offset-md-0">
               <br>
                 <form method="post" role="form" enctype="multipart/form-data"> 
                   <div class="input-group">
-                    <input type="text" name="search" class="form-control form-control-lg" autofocus><br /> 
+                    <input type="number" name="search" class="form-control form-control-lg" autofocus><br /> 
                     <div class="input-group-append">
                       <button type="submit" name="btnSearch"  class="btn btn-lg btn-default"><i class="fa fa-search"></i></button>     
                     </div>
@@ -256,16 +272,16 @@
                     <div class="row">
                       <div class="col px-4">
                         <table id="example1" class="table ">
-                          <thead>
+                          <!-- <thead>
                             <tr>
                               <th>Name</th>
                               <th>Quantity</th>
                               <th>Price</th>
                             </tr>
-                          </thead>
+                          </thead> -->
                           <tbody>
                             <?php
-                              $sqlCart = "SELECT * FROM cart_tbl WHERE cart_isdel = 0";
+                              $sqlCart = "SELECT * FROM cart_tbl WHERE cart_isdel = 0 ORDER BY cart_datecreated DESC";
                               $queryCart = mysqli_query($dbConString, $sqlCart);
                               while($fetchCart = mysqli_fetch_assoc($queryCart)) {
 
@@ -275,9 +291,10 @@
                                 $prodname = $fetchProd['prod_name'];
                             ?>
                             <tr>
-                              <td><?php print $prodname; ?></td>
-                              <td><?php print $fetchCart["cart_prod_qty"]; ?></td>
-                              <td><?php print $fetchCart["cart_prod_price"]; ?></td>
+                              <td><b><?php print $prodname; ?></b></td>
+                              <td><button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-primary" style="height: 30px; font-size: 16px; padding: 0px 7px;"><i class="fas fa-plus-circle"></i></button>&nbsp&nbsp&nbsp&nbsp<b><?php print $fetchCart["cart_prod_qty"]; ?></b>
+                              &nbsp&nbsp&nbsp&nbsp<button type="button" onclick="document.location.href='cart-minus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-primary" style="height: 30px; font-size: 16px; padding: 0px 7px;"><i class="fas fa-minus-circle"></i></button></td>
+                              <td><b><?php print $fetchCart["cart_prod_price"]; ?></b></td>
                             </tr>
                             <?php
                               }
@@ -290,24 +307,31 @@
                 </div> 
               <br>
             </div>
+          </div>  
+        </div>
+        <div class="col-md-3">
+          <div class="card card-primary">
+            <div class="card-header">
+              <h3 class="card-title">PAYMENT</h3>
+            </div>
           </div>
-          <div class="col-md-12">
-            <div class="card card-success">
-              <div class="card-header">
-                <h3 class="card-title">Functions</h3>
-              </div>
-              <div class="col-md-2 offset-md-0">
-                <br>
-                <form method="post" role="form" enctype="multipart/form-data"> 
-                  <div class="input-group"> 
-                    <!-- <button type="button" onclick="document.location.href='cart-delete.php'" class="btn btn-danger" style="height: 100px; width: 100px; font-size: 50px; padding: 0px 10px;"><i class="fa fa-trash"></i></button> -->
-                    <button type="button" class="btn btn-danger" class="btn btn-danger" style="height: 100px; width: 100px; font-size: 50px; padding: 0px 10px;" data-toggle="modal" data-target="#modal-sm">
-                    <i class="fa fa-trash"></i>
-                    </button>
-                  </div>  
-                </form>
-                <br>
-              </div>
+        </div>
+        <div class="col-md-9">
+          <div class="card card-success">
+            <div class="card-header">
+              <h3 class="card-title">FUNCTIONS</h3>
+            </div>
+            <div class="col-md-4 offset-md-0">
+              <br>
+              <form method="post" role="form" enctype="multipart/form-data"> 
+                <div class="input-group"> 
+                  <!-- <button type="button" onclick="document.location.href='cart-delete.php'" class="btn btn-danger" style="height: 100px; width: 100px; font-size: 50px; padding: 0px 10px;"><i class="fa fa-trash"></i></button> -->
+                  <button type="button" class="btn btn-danger" class="btn btn-danger" style="height: 100px; width: 100px; font-size: 50px; padding: 0px 10px;" data-toggle="modal" data-target="#modal-sm">
+                  <i class="fa fa-trash"></i>
+                  </button>
+                </div>  
+              </form>
+              <br>
             </div>
           </div>
         </div>
@@ -386,6 +410,10 @@
       position: 'top-end',
       showConfirmButton: false,
       timer: 3000
+    });
+
+    shortcut.add("F2", function() {
+      header("location: dashboard.php");
     });
 
     $('.swalDefaultSuccess').click(function() {
@@ -534,4 +562,5 @@
   });
 </script>
 </body>
+
 </html>
