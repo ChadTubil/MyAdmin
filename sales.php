@@ -295,6 +295,7 @@
                               <td><button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-primary" style="height: 30px; font-size: 16px; padding: 0px 7px;"><i class="fas fa-plus-circle"></i></button>&nbsp&nbsp&nbsp&nbsp<b><?php print $fetchCart["cart_prod_qty"]; ?></b>
                               &nbsp&nbsp&nbsp&nbsp<button type="button" onclick="document.location.href='cart-minus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-primary" style="height: 30px; font-size: 16px; padding: 0px 7px;"><i class="fas fa-minus-circle"></i></button></td>
                               <td><b><?php print $fetchCart["cart_prod_price"]; ?></b></td>
+                              <td><button type="button" class="btn btn-default" style="height: 30px; font-size: 16px; padding: 0px 7px;" data-toggle="modal" data-target="#modal-sm2" data-id="<?php print $fetchCart['cart_id']; ?>"><i class="fas fa-tag"></i></button></td>
                             </tr>
                             <?php
                               }
@@ -326,8 +327,9 @@
               <form method="post" role="form" enctype="multipart/form-data"> 
                 <div class="input-group"> 
                   <!-- <button type="button" onclick="document.location.href='cart-delete.php'" class="btn btn-danger" style="height: 100px; width: 100px; font-size: 50px; padding: 0px 10px;"><i class="fa fa-trash"></i></button> -->
-                  <button type="button" class="btn btn-danger" class="btn btn-danger" style="height: 100px; width: 100px; font-size: 50px; padding: 0px 10px;" data-toggle="modal" data-target="#modal-sm">
+                  <button type="button" class="btn btn-danger" style="height: 100px; width: 100px; font-size: 50px; padding: 0px 10px;" data-toggle="modal" data-target="#modal-sm">
                   <i class="fa fa-trash"></i>
+                  
                   </button>
                 </div>  
               </form>
@@ -336,6 +338,7 @@
           </div>
         </div>
       </div>
+      <!-- Modal 1 -->
       <div class="modal fade" id="modal-sm">
         <div class="modal-dialog modal-sm">
           <div class="modal-content">
@@ -348,6 +351,71 @@
             <form role="form" method="post">
               <div class="modal-body">
               <input type="password" class="form-control" placeholder="Pin" name="txtPasswordConfirm" required>
+              </div>
+              <div class="modal-footer justify-content-between">
+                <button type="submit" class="btn btn-primary btn-block" name="btnConfirm">OK</button>
+              </div>
+            </form>
+          </div>
+          <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+      </div>
+      <!-- Modal 2 -->
+      <div class="modal fade" id="modal-sm2">
+        <div class="modal-dialog modal-sm">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h4 class="modal-title">Discount</h4>
+              <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </div>
+            <form role="form" method="post">
+              <div class="modal-body">
+                <div class="input-group">
+                  <div>
+                    <button type="button" onclick="document.location.href='discount-five.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">5%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">10%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">15%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">20%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">25%</button>
+                  </div>
+                </div>
+                <br>
+                <div class="input-group">
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">30%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">35%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">40%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">45%</button>
+                  </div>
+                  &nbsp
+                  <div>
+                    <button type="button" onclick="document.location.href='cart-plus-qty.php?id=<?php print $fetchCart['cart_id']; ?>'" class="btn btn-block btn-outline-primary" style="height: 50px; width: 50px; font-size: 20px; padding: 0px 7px;">50%</button>
+                  </div>
+                </div>
               </div>
               <div class="modal-footer justify-content-between">
                 <button type="submit" class="btn btn-primary btn-block" name="btnConfirm">OK</button>
